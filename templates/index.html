@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="relative">
+    <img src="https://images.pexels.com/photos/446280/pexels-photo-446280.jpeg?auto=compress&cs=tinysrgb&w=800"
+      class="absolute inset-0 object-cover w-full h-full" alt="" />
+    <div class="relative bg-gray-900 bg-opacity-75">
+      <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+        <div class="flex flex-col items-center justify-between xl:flex-row">
+          <div class="w-full max-w-xl mb-12 xl:mb-0 xl:pr-16 xl:w-7/12">
+            <h2 id="prediction-title" class="max-w-lg mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
+              Iris Classification with <br class="hidden md:block" />
+              Linear Discriminant<span class="text-teal-accent-400"> Analysis </span>
+            </h2>
+            <p id="prediction-description" class="max-w-xl mb-4 text-base text-gray-400 md:text-lg">
+              Explore the power of LDA for Iris classification. Simplify data, reveal insights, and achieve accurate results in just a few steps.
+            </p>
+            <div id="prediction-image-container" class="text-center mt-8">
+              <img id="prediction-image" class="w-full md:w-80 mx-auto" style="display: none;" alt="Predicted Iris Species Image"
+              alt="Description of the image">
+            </div>
+            
+            
+            <a href="/" aria-label=""
+              class="inline-flex items-center font-semibold tracking-wider transition-colors duration-200 text-teal-accent-400 hover:text-teal-accent-700">
+              Learn more
+              <svg class="inline-block w-3 ml-2" fill="currentColor" viewBox="0 0 12 12">
+                <path
+                  d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z">
+                </path>
+              </svg>
+            </a>
+          </div>
+          <div class="w-full max-w-xl xl:px-8 xl:w-5/12">
+            <div class="bg-white rounded shadow-2xl p-7 sm:p-10">
+              <h3 class="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
+                Predict Iris Classification
+              </h3>
+              <form id="predictForm">
+                <div class="mb-1 sm:mb-2">
+                  <label for="sepal_length" class="inline-block mb-1 font-medium">Sepal Length</label>
+                  <input type="number" id="sepal_length" name="sepal_length" step="0.1" required placeholder="e.g., 5.1"
+                    class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="mb-1 sm:mb-2">
+                  <label for="sepal_width" class="inline-block mb-1 font-medium">Sepal Width</label>
+                  <input type="number" id="sepal_width" name="sepal_width" step="0.1" required placeholder="e.g., 3.5"
+                    class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="mb-1 sm:mb-2">
+                  <label for="petal_length" class="inline-block mb-1 font-medium">Petal Length</label>
+                  <input type="number" id="petal_length" name="petal_length" step="0.1" required placeholder="e.g., 1.4"
+                    class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="mb-1 sm:mb-2">
+                  <label for="petal_width" class="inline-block mb-1 font-medium">Petal Width</label>
+                  <input type="number" id="petal_width" name="petal_width" step="0.1" required placeholder="e.g., 0.2"
+                    class="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline" />
+                </div>
+                <div class="mt-4 mb-2 sm:mb-4">
+                  <button type="submit"
+                    class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none">
+                    Predict
+                  </button>
+                </div>
+
+                <h2 id="result"></h2>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <h2 class="text-center p-8 -bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+    Iris Species Overview
+  </h2>
+
+  <div class="bg-gray-50">
+
+    <div class="py-8 md:py-16 w-11/12 lg:w-10/12 xl:w-1200 m-auto">
+      <div class="space-y-16">
+        <div
+          class="space-y-8 md:space-y-0 text-center md:text-left md:space-x-16 md:justify-center md:flex md:items-center ">
+          <div class="w-full md:w-1/4 space-y-4">
+            <h3 class="font-medium text-2xl">Virginica Iris</h3>
+            <p>
+              The Iris-virginica is the largest and most striking of the iris species, characterized by its long and
+              broad petals. It exudes a sense of grace and grandeur, often admired for its vibrant colors and robust
+              structure. However, its features can overlap with those of Iris-versicolor, making it more challenging to
+              classify. This complexity highlights its role in advancing the study of machine learning and botanical
+              taxonomy.
+            </p>
+          </div>
+          <div class="mx-auto w-1/2 md:w-1/3">
+            <img class="w-full md:w-80" src="{{ url_for('static', filename='images/virginica.png') }}"
+              alt="Description of the image">
+          </div>
+
+
+        </div>
+        <div
+          class="space-y-8 md:space-y-0 text-center md:text-left md:space-x-16 md:justify-center md:flex md:items-center md:flex-row-reverse">
+          <div class="w-full md:w-1/4 space-y-4">
+            <h3 class="font-medium text-2xl">Setosa Iris</h3>
+            <p>
+              The Iris-setosa is a small, delicate flower known for its simplicity and elegance. It has distinctively
+              short petals and sepals, making it the most easily identifiable among the iris species. The uniformity in
+              its features makes it a favorite for classification models, as its characteristics are well-separated from
+              the other two species. Its vibrant blooms and compact structure symbolize beauty in simplicity.
+            </p>
+          </div>
+          <div class="mx-auto w-1/2 md:w-1/3">
+            <img class="w-full md:w-80" src="{{ url_for('static', filename='images/Setosa.png') }}"
+              alt="Description of the image">
+          </div>
+        </div>
+
+
+        <div
+          class="space-y-8 md:space-y-0 text-center md:text-left md:space-x-16 md:justify-center md:flex md:items-center ">
+          <div class="w-full md:w-1/4 space-y-4">
+            <h3 class="font-medium text-2xl">Versicolor Iris</h3>
+            <p>
+              The Iris-versicolor, often referred to as the blue flag iris, is a medium-sized species with a balanced
+              blend of features. It bridges the gap between Iris-setosa and Iris-virginica, making it a fascinating
+              subject for classification studies. Known for its striking blue and purple hues, it symbolizes harmony and
+              diversity in nature. Its overlapping characteristics with the other species pose an intriguing challenge
+              in distinguishing it during classification tasks, emphasizing its importance in both botanical and data
+              science fields.
+            </p>
+          </div>
+          <div class="mx-auto w-1/2 md:w-1/3">
+            <img class="w-full md:w-80" src="{{ url_for('static', filename='images/versicolor.png') }}"
+              alt="Description of the image">
+          </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="text-center">
+
+
+          <span class="block text-sm text-center text-gray-500">© 2024-2025 Nour Che™. All Rights Reserved.
+          </span>
+
+          <ul class="flex justify-center mt-5 space-x-5">
+
+
+
+            <li>
+              <a href="https://github.com/Nourche" class="text-gray-500 hover:text-gray-900">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+      </div>
+      <script>
+       document.getElementById('predictForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const response = await fetch('/predict', {
+    method: 'POST',
+    body: new URLSearchParams(formData)
+  });
+  const result = await response.json();
+  const prediction = result.prediction;
+  const imageUrl = getImageUrl(prediction); // Function to get the image URL based on the prediction
+
+  // Update the title and description dynamically
+  document.getElementById('prediction-title').textContent = `Predicted Iris Species: ${prediction}`;
+  document.getElementById('prediction-description').textContent = `This is the predicted species based on the provided attributes using Linear Discriminant Analysis.`;
+
+  // Update the image dynamically
+  const imageElement = document.getElementById('prediction-image');
+  imageElement.src = imageUrl;
+  imageElement.alt = `Image of ${prediction}`;
+  imageElement.style.display = 'block'; // Make sure the image is visible
+});
+
+// Function to return the image URL based on the prediction
+function getImageUrl(prediction) {
+  if (prediction === 'Iris-setosa') {
+    return '{{ url_for("static", filename="images/Setosa.png") }}';
+  } else if (prediction === 'Iris-virginica') {
+    return '{{ url_for("static", filename="images/virginica.png") }}';
+  } else if (prediction === 'Iris-versicolor') {
+    return '{{ url_for("static", filename="images/versicolor.png") }}';
+  }
+  return ''; // Default image if no match
+}
+
+      </script>
+</body>
+
+</html>
